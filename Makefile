@@ -12,7 +12,7 @@ all:
 virtualbox/%.box: %.json
 	-rm -fr $@ output-$(subst .json,,$<)/
 	@-mkdir -p $(@D)
-	packer build -color=false -only=$(@D) -var 'vm_name=$(subst .json,,$<)' $<
+	packer build -color=false -only=$(@D) -var 'headless=false' -var 'vm_name=$(subst .json,,$<)' $<
 
 clean:
 	-rm -fr $(BOX_FILES)

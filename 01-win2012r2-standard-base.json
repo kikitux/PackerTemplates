@@ -4,7 +4,6 @@
       "type": "virtualbox-iso",
       "name": "virtualbox",
       "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--natpf1", "guest_winrm,tcp,,55985,,5985" ],
         [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
         [ "modifyvm", "{{.Name}}", "--vram", "48" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
@@ -12,6 +11,7 @@
       "output_directory": "./output-{{user `vm_name`}}/",
       "vm_name": "{{user `vm_name`}}",
       "guest_os_type": "Windows2012_64",
+      "guest_additions_mode": "{{ user `guest_additions_mode` }}",
       "headless": "{{ user `headless` }}",
       "iso_url": "{{ user `iso_url` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
@@ -23,7 +23,7 @@
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "shutdown_timeout": "1h",
       "floppy_files": [
-        "files/answer_files/2012_r2{{user `core`}}/Autounattend.xml",
+        "files/answer_files/2012_r2/Autounattend.xml",
         "files/floppy/winrm.ps1"
       ]
     }
