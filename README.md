@@ -3,11 +3,12 @@ This is a make driven packer project.
 
 Work in progress:
 
-done: 01-win2012
-
+done:
+01-win2012
+02-win2012
 todo:
 
-02*
+03*
 *
 
 

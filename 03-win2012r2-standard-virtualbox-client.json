@@ -21,7 +21,7 @@
       "output_directory": "./output-win2012r2{{user `core`}}-vbox-client/",
       "vm_name": "win2012r2{{user `core`}}-vbox-client",
       "floppy_files": [
-        "floppy/oracle.cer"
+        "files/floppy/oracle.cer"
       ]
     }
   ],
