@@ -6,3 +6,5 @@ if (!(Test-Path -Path $wuInstallExe))
 }
 
 C:\WINDOWS\SYSTEM32\WUInstallAMD64.exe /install /autoaccepteula /silent
+
+Remove-Item c:\Windows\SoftwareDistribution\Download\*
