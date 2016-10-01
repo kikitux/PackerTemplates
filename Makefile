@@ -1,18 +1,24 @@
-BUILDER_TYPES = virtualbox
 TEMPLATE_FILES := $(wildcard *.json)
-BOX_FILENAMES := $(TEMPLATE_FILES:.json=.box)
-BOX_FILES := $(foreach builder, $(BUILDER_TYPES), $(foreach box_filename, $(BOX_FILENAMES), $(builder)/$(box_filename)))
+GUEST := $(TEMPLATE_FILES:.json=)
 
+OVF_DIR := $(foreach ovf_filename, $(GUEST), output-$(ovf_filename))
+#SHELL := $(shell make -p $(OVF_DIR))
+
+OVF_FILES := $(foreach ovf_filename, $(GUEST), output-$(ovf_filename)/$(ovf_filename).ovf)
 PWD := `pwd`
 
-.PHONY: all clean
+.PHONY: clean
 
-all:
+all: $(OVF_FILES)
 
-virtualbox/%.box: %.json
-	-rm -fr $@ output-$(subst .json,,$<)/
-	@-mkdir -p $(@D)
-	packer build -color=false -only=$(@D) -var 'headless=false' -var 'vm_name=$(subst .json,,$<)' $<
+$(OVF_FILES):  
+	@#echo 1 $@ 
+	@#echo 2 $(@D)
+	@#echo 4 $(@F)
+	@#echo 4 $(subst .ovf,.json,$(@F))
+	@#echo 5 $(subst .ovf,,$(@F))
+	@-rm -fr $(@D)
+	packer build -color=false -only=virtualbox -var 'headless=false' -var 'vm_name=$(subst .ovf,,$(@F))'  $(subst .ovf,.json,$(@F))
 
 clean:
 	-rm -fr $(BOX_FILES)
@@ -21,4 +27,5 @@ cleanall: clean
 	-rm -fr output-*/ packer_cache/
 
 list:
-	@echo $(BOX_FILES)
+	@echo $(OVF_DIR)
+	@echo $(OVF_FILES)

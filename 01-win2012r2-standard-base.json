@@ -24,7 +24,7 @@
       "shutdown_timeout": "1h",
       "floppy_files": [
         "files/answer_files/2012_r2/Autounattend.xml",
-        "files/floppy/winrm.ps1"
+        "files/floppy/setup.ps1"
       ]
     }
   ],

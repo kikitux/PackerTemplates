@@ -9,7 +9,6 @@
       ],
       "source_path": "{{user `source_path`}}",
       "guest_additions_mode": "{{ user `guest_additions_mode` }}",
-      "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
       "headless": "{{ user `headless` }}",
       "communicator": "winrm",
       "winrm_username": "vagrant",
@@ -17,8 +16,8 @@
       "winrm_timeout": "12h",
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "shutdown_timeout": "1h",
-      "output_directory": "./output-win2012r2{{user `core`}}-updates_wmf5/",
-      "vm_name": "win2012r2{{user `core`}}-updates_wmf5"
+      "output_directory": "./output-{{user `vm_name`}}/",
+      "vm_name": "{{user `vm_name`}}"
     }
   ],
   "provisioners": [
@@ -137,9 +136,10 @@
     }
   ],
   "variables": {
+    "vm_name": "",
     "core": "",
     "guest_additions_mode": "disable",
     "headless": "true",
-    "source_path": ""
+    "source_path": "output-01-win2012r2-standard-base/01-win2012r2-standard-base.ovf"
   }
 }

@@ -35,5 +35,10 @@ Enable-NetFirewallRule -DisplayName "Windows Remote Management (HTTP-In)"
 
 sc.exe config winrm start= auto
 
-exit 0
+#Dismount the floppy
+$vol = get-wmiobject -Class Win32_Volume | where{$_.Name -eq 'A:\'}  
+$vol.DriveLetter = $null  
+$vol.Put()  
+$vol.Dismount($false, $false)
 
+exit 0
