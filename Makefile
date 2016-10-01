@@ -5,7 +5,6 @@ OVF_FILES := $(foreach ovf_filename, $(GUEST), output/$(ovf_filename).ovf)
 PWD := `pwd`
 
 .PHONY: clean
-
 all: $(OVF_FILES)
 
 output/%.ovf: %.json
