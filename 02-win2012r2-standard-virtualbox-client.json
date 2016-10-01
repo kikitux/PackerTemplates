@@ -8,7 +8,7 @@
         [ "modifyvm", "{{.Name}}", "--vram", "48" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
       ],
-      "output_directory": "./output-{{user `vm_name`}}/",
+      "output_directory": "./output/{{user `vm_name`}}/",
       "vm_name": "{{user `vm_name`}}",
       "guest_additions_mode": "{{ user `guest_additions_mode` }}",
       "source_path": "{{user `source_path`}}",
