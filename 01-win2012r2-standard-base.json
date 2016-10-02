@@ -8,7 +8,7 @@
         [ "modifyvm", "{{.Name}}", "--vram", "48" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
       ],
-      "output_directory": "./output/{{user `vm_name`}}/",
+      "output_directory": "./output/",
       "vm_name": "{{user `vm_name`}}",
       "guest_additions_mode": "{{ user `guest_additions_mode` }}",
       "guest_os_type": "Windows2012_64",
@@ -26,6 +26,12 @@
         "files/answer_files/2012_r2/Autounattend.xml",
         "files/floppy/setup.ps1"
       ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "windows-restart",
+      "restart_timeout": "1h"
     }
   ],
   "variables": {

@@ -10,7 +10,7 @@
       ],
       "guest_additions_mode": "{{ user `guest_additions_mode` }}",
       "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
-      "output_directory": "./output-win10-base/",
+      "output_directory": "./output/win10-base",
       "guest_os_type": "Windows10_64",
       "headless": "{{ user `headless` }}",
       "iso_url": "{{ user `iso_url` }}",

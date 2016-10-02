@@ -1,36 +1,37 @@
 TEMPLATE_FILES := $(wildcard *.json)
 GUEST := $(TEMPLATE_FILES:.json=)
 
-OVF_FILES := $(foreach ovf_filename, $(GUEST), output/$(ovf_filename).ovf)
+OVF_FILES := $(foreach vm, $(GUEST), output/$(vm)/$(vm).ovf)
 PWD := `pwd`
 
 .PHONY: clean update
 
-all: $(OVF_FILES)
+all: $(OVF_FILES) hi1 hi2 here
+
+hi1 hi2:
+	@echo hi
+
+here: hi1 hi2
+	@echo here
 
 #following code allow update 02 vm
 update_vm := 02-win2012r2-standard-win_updates-wmf5
-update_files := $(foreach vm, $(update_vm), $(wildcard output/$(vm).*))
-update_ovf := $(foreach vm, $(update_vm), output/$(vm).ovf)
-update_tmp := output/temp
+update_tmp := tmp
 
-update: $(update_ovf)
-	@echo $@
-	@echo $<
-	@echo $^
-	@echo mkdir -p $(update_tmp)
-	@echo mv output/$(update_files) $(update_tmp)
-	@$(foreach vm,$^, @echo packer build -color=false -only=virtualbox -var 'headless=false' -var 'source_path=$(update_tmp)/$(vm).ovf' -var 'vm_name=$(vm)' $(vm).json ;)
-	@echo rm -fr $(update_tmp)
+update: output/$(update_vm)/$(update_vm).ovf
+	@mkdir -p $(update_tmp)/
+	@mv output/$(update_vm) $(update_tmp)/
+	@packer build -color=false -only=virtualbox -var 'headless=false' -var "source_path=$(update_tmp)/$(update_vm)/$(update_vm).ovf" -var "vm_name=$(update_vm)" $(update_vm).json 
+	@rm -fr $(update_tmp)/
 
 output/%.ovf: %.json
-	@#echo 1 $< 
-	@#echo 1 $@ 
-	@#echo 2 $(@D)
-	@#echo 4 $(@F)
-	@#echo 5 $(subst .ovf,,$(@F))
-	@-rm -f $(@D)/$(subst .ovf,,$(@F))*
-	packer build -color=false -only=virtualbox -var 'headless=false' -var 'vm_name=$(subst .ovf,,$(@F))'  $<
+	@echo 1 $< 
+	@echo 1 $@ 
+	@echo 2 $(@D)
+	@echo 4 $(@F)
+	@echo 5 $(subst .ovf,,$(@F))
+	@-rm -fr $(@D)/$(subst .ovf,,$(@F))*
+	@packer build -color=false -only=virtualbox -var 'headless=false' -var 'vm_name=$(subst .ovf,,$(@F))'  $<
 
 clean:
 	-rm -fr output*/ packer_cache/
