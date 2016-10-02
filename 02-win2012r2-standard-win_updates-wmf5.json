@@ -17,8 +17,29 @@
       "winrm_timeout": "12h",
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "shutdown_timeout": "1h",
-      "output_directory": "./output-{{user `vm_name`}}/",
+      "output_directory": "./output/{{user `vm_name`}}",
       "vm_name": "{{user `vm_name`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "script": "files/scripts/install_windows_updates.ps1",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "valid_exit_codes": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        10,
+        15
+      ]
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "1h"
     }
   ],
   "variables": {
@@ -26,6 +47,6 @@
     "core": "",
     "guest_additions_mode": "disable",
     "headless": "true",
-    "source_path": "output/01-win2012r2-standard-base.ovf"
+    "source_path": "output/01-win2012r2-standard-base/01-win2012r2-standard-base.ovf"
   }
 }

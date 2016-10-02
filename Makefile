@@ -6,24 +6,20 @@ PWD := `pwd`
 
 .PHONY: clean update
 
-all: $(OVF_FILES) hi1 hi2 here
-
-hi1 hi2:
-	@echo hi
-
-here: hi1 hi2
-	@echo here
+all: $(OVF_FILES)
 
 #following code allow update 02 vm
+base_vm := output/01-win2012r2-standard-base/01-win2012r2-standard-base.ovf
 update_vm := 02-win2012r2-standard-win_updates-wmf5
 update_tmp := tmp
 
-update: output/$(update_vm)/$(update_vm).ovf
+update: $(base_vm) output/$(update_vm)/$(update_vm).ovf
 	@mkdir -p $(update_tmp)/
 	@mv output/$(update_vm) $(update_tmp)/
 	@packer build -color=false -only=virtualbox -var 'headless=false' -var "source_path=$(update_tmp)/$(update_vm)/$(update_vm).ovf" -var "vm_name=$(update_vm)" $(update_vm).json 
 	@rm -fr $(update_tmp)/
 
+#main logic for all vms from json file
 output/%.ovf: %.json
 	@echo 1 $< 
 	@echo 1 $@ 
@@ -38,4 +34,3 @@ clean:
 
 list:
 	@echo ovf_files $(OVF_FILES)
-	@echo update_files $(update_list)
