@@ -20,7 +20,7 @@ update: $(update_ovf)
 	@echo $^
 	@echo mkdir -p $(update_tmp)
 	@echo mv output/$(update_files) $(update_tmp)
-        @$(foreach vm,$^, @echo packer build -color=false -only=virtualbox -var 'headless=false' -var 'source_path=$(update_tmp)/$(vm).ovf' -var 'vm_name=$(vm)' $(vm).json ;)
+	@$(foreach vm,$^, @echo packer build -color=false -only=virtualbox -var 'headless=false' -var 'source_path=$(update_tmp)/$(vm).ovf' -var 'vm_name=$(vm)' $(vm).json ;)
 	@echo rm -fr $(update_tmp)
 
 output/%.ovf: %.json
